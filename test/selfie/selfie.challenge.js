@@ -43,7 +43,7 @@ describe('[Challenge] Selfie', function () {
         // Attacker has taken all tokens from the pool
         expect(
             await this.token.balanceOf(attacker.address)
-        ).to.be.eqltual(TOKENS_IN_POOL);        
+        ).to.be.equal(TOKENS_IN_POOL);        
         expect(
             await this.token.balanceOf(this.pool.address)
         ).to.be.equal('0');
